@@ -13,7 +13,7 @@ Collection of Azure Commands, Guides and ARM Projects
   - `az account show --query ”name”` (subscription name)
 - Search a command syntax
 
-  - `az    *resource_name    sub_resource    resource_action    action_parameters*`
+  - `az    resource_name    sub_resource    resource_action    action_parameters`
   - Say if we are looking for resource group, we could look for “resource” “group” or “resource group”
     - `az | Select-String "resource”`
     - `az | Select-String “resource group”`
