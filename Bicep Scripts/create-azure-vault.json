@@ -1,0 +1,101 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.22.6.54827",
+      "templateHash": "2439604212939334808"
+    }
+  },
+  "variables": {
+    "location": "[resourceGroup().location]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.KeyVault/vaults",
+      "apiVersion": "2023-02-01",
+      "name": "MyDemoVault1",
+      "location": "[variables('location')]",
+      "properties": {
+        "sku": {
+          "family": "A",
+          "name": "standard"
+        },
+        "tenantId": "[subscription().tenantId]",
+        "accessPolicies": []
+      }
+    },
+    {
+      "type": "Microsoft.KeyVault/vaults/secrets",
+      "apiVersion": "2023-02-01",
+      "name": "[format('{0}/{1}', 'MyDemoVault1', 'MyDemoSecret1')]",
+      "properties": {
+        "value": "super secret"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.KeyVault/vaults', 'MyDemoVault1')]"
+      ]
+    },
+    {
+      "type": "Microsoft.Web/serverfarms",
+      "apiVersion": "2022-09-01",
+      "name": "MyDemoAppSP",
+      "location": "[variables('location')]",
+      "kind": "app",
+      "sku": {
+        "name": "F1"
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites",
+      "apiVersion": "2022-09-01",
+      "name": "MyDemoApp",
+      "location": "[variables('location')]",
+      "kind": "app",
+      "identity": {
+        "type": "SystemAssigned"
+      },
+      "properties": {
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', 'MyDemoAppSP')]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', 'MyDemoAppSP')]"
+      ]
+    },
+    {
+      "type": "Microsoft.Web/sites/config",
+      "apiVersion": "2022-09-01",
+      "name": "[format('{0}/{1}', 'MyDemoApp', 'appsettings')]",
+      "properties": {
+        "my:secret": "[format('@Microsoft.KeyVault(SecretUri={0})', reference(resourceId('Microsoft.KeyVault/vaults/secrets', 'MyDemoVault1', 'MyDemoSecret1'), '2023-02-01').secretUri)]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', 'MyDemoApp')]",
+        "[resourceId('Microsoft.KeyVault/vaults/secrets', 'MyDemoVault1', 'MyDemoSecret1')]"
+      ]
+    },
+    {
+      "type": "Microsoft.KeyVault/vaults/accessPolicies",
+      "apiVersion": "2023-02-01",
+      "name": "[format('{0}/{1}', 'MyDemoVault1', 'add')]",
+      "properties": {
+        "accessPolicies": [
+          {
+            "objectId": "[reference(resourceId('Microsoft.Web/sites', 'MyDemoApp'), '2022-09-01', 'full').identity.principalId]",
+            "tenantId": "[reference(resourceId('Microsoft.Web/sites', 'MyDemoApp'), '2022-09-01', 'full').identity.tenantId]",
+            "permissions": {
+              "secrets": [
+                "get"
+              ]
+            }
+          }
+        ]
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', 'MyDemoApp')]",
+        "[resourceId('Microsoft.KeyVault/vaults', 'MyDemoVault1')]"
+      ]
+    }
+  ]
+}
