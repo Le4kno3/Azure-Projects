@@ -1,3 +1,9 @@
 {
-  "azureFunctions.projectSubpath": "Bicep Scripts\\demo-iac1 project"
+  "azureFunctions.projectSubpath": "Bicep Scripts\\demo-iac1 project",
+  "azureFunctions.deploySubpath": "Bicep Scripts\\demo-iac1 project",
+  "azureFunctions.projectLanguage": "JavaScript",
+  "azureFunctions.projectRuntime": "~4",
+  "debug.internalConsoleOptions": "neverOpen",
+  "appService.defaultWebAppToDeploy": "/subscriptions/9f412294-64e0-440b-98ca-7137b213e1d5/resourceGroups/newRG/providers/Microsoft.Web/sites/myExpressAppSecond",
+  "appService.deploySubpath": "."
 }
