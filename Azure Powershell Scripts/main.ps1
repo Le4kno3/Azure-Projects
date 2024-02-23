@@ -1,7 +1,7 @@
 
 # Give the names of the resources.
 # Location is eastus for all
-$rgName='newRg'
+$rgName='newRg1'
 $location='eastus'
 $vnet1ARG = @{
   "name" = "vnet1"  #Note you can always change the name later after the script is executed.
@@ -50,7 +50,6 @@ $nsg1ARG = @{
 $vmNICs = @{  #IPs are dynamically assigned for not making this complex
   "count" = 2
   "resourceGroupName" = $rgName
-  "location" = $location
   "vnetName" = $vnet1ARG.name
   "nic1" = @{
     "name" = "nic1"
@@ -80,7 +79,10 @@ $vmARG = @{
   }
   "vm2" = @{
     "name" = "VirtualMachine2"  #Note you can always change the name later after the script is executed.
-    "image" = "win11-23h2-pro"
+    "PublisherName" = "MicrosoftWindowsDesktop"
+    "Offer" = "Windows-11"
+    "Skus" = "win11-23h2-pro"
+    "Version" = "latest"
     "size" = "Standard_B2s"
     "username" = "windows"
     "nsgName" = $nsg1ARG.name
@@ -236,26 +238,26 @@ $vmARG = @{
     -Credential $creds
   $vmConfig1 = Set-AzVMSourceImage -VM $vmConfig1 `
     -PublisherName "MicrosoftWindowsDesktop" `
-    -Offer "Windows-11" `
-    -Skus "win11-23h2-pro" `
-    -Version "latest"
+    -Offer $vmARG.$vm.Offer `
+    -Skus $vmARG.$vm.Skus `
+    -Version $vmARG.$vm.Version
   $vmConfig1 = Add-AzVMNetworkInterface -VM $vmConfig1 `
     -Id $nic1.Id
   
   # Create a VM2 config with same credentials as of VM1
-  $vmName = "VM2"
+  $vm="vm2"
   $vmConfig2 = New-AzVMConfig `
-    -VMName $vmName `
-    -VMSize Standard_B2s
+    -VMName $vmARG.$vm.name `
+    -VMSize $vmARG.$vm.size
   $vmConfig2 = Set-AzVMOperatingSystem -VM $vmConfig2 `
     -Windows `
-    -ComputerName VM2 `
+    -ComputerName $vmARG.$vm.name `
     -Credential $creds
   $vmConfig2 = Set-AzVMSourceImage -VM $vmConfig2 `
-    -PublisherName "MicrosoftWindowsDesktop" `
-    -Offer "Windows-11" `
-    -Skus "win11-23h2-pro" `
-    -Version "latest"
+    -PublisherName $vmARG.$vm.PublisherName `
+    -Offer $vmARG.$vm.Offer `
+    -Skus $vmARG.$vm.Skus `
+    -Version $vmARG.$vm.Version
   $vmConfig2 = Add-AzVMNetworkInterface -VM $vmConfig2 `
     -Id $nic2.Id
   

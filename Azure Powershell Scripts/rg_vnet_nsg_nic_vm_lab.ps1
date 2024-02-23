@@ -9,7 +9,7 @@
 
 
 # All the parameters need to be defined here, you dont need to customize anything later.
-# The parameter "location" is default value it will be udpated based on the name of the rg at point when the resource group is created. 
+# The parameter "location" is for all resources so be sure to update it.
 $rgName='newRg'
 $location='eastus'
 $vnet1ARG = @{
@@ -100,11 +100,9 @@ $vmARG = @{
 #######################   RESOURCE GROUP     #####################
 
   # New ResourceGroup
-  $rg=New-AzResourceGroup `
+  New-AzResourceGroup `
     -Location $location `
     -Name $rgName
-
-  $location=$rg.Location
 
 ######################   VIRTUAL NETWORKS    ######################
 
