@@ -1,6 +1,15 @@
 
-# Give the names of the resources.
-# Location is eastus for all
+# Summary of the actions
+# Note: All resources will be created in this resource group with the same location of the resource group.
+# 1. Create a new resource group
+# 2. Create 1 vnet and then create 2 subnets inside this vnet.
+# 3. Create 2 NICs and associate it with 2 subnets.
+# 4. Create 1 NSG and apply the nsg to the 2 subents.
+# 5. Create 2 VMs and NIC associated with it.
+
+
+# All the parameters need to be defined here, you dont need to customize anything later.
+# The parameter "location" is default value it will be udpated based on the name of the rg at point when the resource group is created. 
 $rgName='newRg'
 $location='eastus'
 $vnet1ARG = @{
@@ -91,9 +100,11 @@ $vmARG = @{
 #######################   RESOURCE GROUP     #####################
 
   # New ResourceGroup
-  New-AzResourceGroup `
+  $rg=New-AzResourceGroup `
     -Location $location `
     -Name $rgName
+
+  $location=$rg.Location
 
 ######################   VIRTUAL NETWORKS    ######################
 
