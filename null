@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<publishData>
+  <publishProfile profileName="demoapp111223 - Web Deploy" publishMethod="MSDeploy" publishUrl="demoapp111223.scm.azurewebsites.net:443" msdeploySite="demoapp111223" userName="$demoapp111223" userPWD="jeYiwx5wXdcczoWmyGTPhFEGmnAlNTr91oYZKwKSfnPyFebr6YscZrKRuyZt" destinationAppUrl="https://demoapp111223.azurewebsites.net" SQLServerDBConnectionString="" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="https://portal.azure.com" webSystem="WebSites">
+    <databases />
+  </publishProfile>
+  <publishProfile profileName="demoapp111223 - FTP" publishMethod="FTP" publishUrl="ftps://waws-prod-cbr20-005.ftp.azurewebsites.windows.net/site/wwwroot" ftpPassiveMode="True" userName="demoapp111223\$demoapp111223" userPWD="jeYiwx5wXdcczoWmyGTPhFEGmnAlNTr91oYZKwKSfnPyFebr6YscZrKRuyZt" destinationAppUrl="https://demoapp111223.azurewebsites.net" SQLServerDBConnectionString="" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="https://portal.azure.com" webSystem="WebSites">
+    <databases />
+  </publishProfile>
+  <publishProfile profileName="demoapp111223 - Zip Deploy" publishMethod="ZipDeploy" publishUrl="demoapp111223.scm.azurewebsites.net:443" userName="$demoapp111223" userPWD="jeYiwx5wXdcczoWmyGTPhFEGmnAlNTr91oYZKwKSfnPyFebr6YscZrKRuyZt" destinationAppUrl="https://demoapp111223.azurewebsites.net" SQLServerDBConnectionString="" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="https://portal.azure.com" webSystem="WebSites">
+    <databases />
+  </publishProfile>
+</publishData>
